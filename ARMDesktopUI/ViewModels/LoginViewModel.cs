@@ -20,8 +20,8 @@ namespace ARMDesktopUI.ViewModels
         public string UserName
         {
             get { return _userName; }
-            set 
-            { 
+            set
+            {
                 _userName = value;
                 NotifyOfPropertyChange(() => UserName);
                 NotifyOfPropertyChange(() => CanLogIn);
@@ -36,6 +36,35 @@ namespace ARMDesktopUI.ViewModels
                 _password = value;
                 NotifyOfPropertyChange(() => Password);
                 NotifyOfPropertyChange(() => CanLogIn);
+            }
+        }
+
+        private bool _isErrorVisible;
+
+        public bool IsErrorVisible
+        {
+            get
+            {
+                bool output = false;
+
+                if (ErrorMessage?.Length > 0)
+                {
+                    output = true;
+                }
+                return output;
+            }
+        }
+
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set
+            {
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
             }
         }
 
@@ -56,7 +85,17 @@ namespace ARMDesktopUI.ViewModels
 
         public async Task LogIn()
         {
-            var result = await _apiHelper.Authenticate(UserName, Password);
+            try
+            {
+                ErrorMessage = "";
+                var result = await _apiHelper.Authenticate(UserName, Password);
+
+            }
+            catch (Exception ex)
+            {
+
+                ErrorMessage = ex.Message;
+            }        
         }
     }
 }
