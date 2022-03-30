@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARMDesktopUI", "ARMDesktopU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDataManager.Library", "AcmeDataManager.Library\AcmeDataManager.Library.csproj", "{CE84A425-1F89-44BE-8FDF-9911BC2349E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARMDesktopUI.Library", "ARMDesktopUI.Library\ARMDesktopUI.Library.csproj", "{4CF503B1-55E4-4442-9CC6-3DE683F845CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{CE84A425-1F89-44BE-8FDF-9911BC2349E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE84A425-1F89-44BE-8FDF-9911BC2349E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE84A425-1F89-44BE-8FDF-9911BC2349E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF503B1-55E4-4442-9CC6-3DE683F845CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF503B1-55E4-4442-9CC6-3DE683F845CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF503B1-55E4-4442-9CC6-3DE683F845CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF503B1-55E4-4442-9CC6-3DE683F845CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using ARMDesktopUI.Helpers;
+using ARMDesktopUI.Library.Api;
+using ARMDesktopUI.Library.Models;
 using ARMDesktopUI.ViewModels;
 using Caliburn.Micro;
 
@@ -32,7 +34,8 @@ namespace ARMDesktopUI
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
-                .Singleton<IAPIHelper, APIHelper>();
+                .Singleton<IAPIHelper, APIHelper>()
+                .Singleton<ILoggedInUserModel,LoggedInUserModel>();
 
             GetType().Assembly.GetTypes()
                 .Where(t => t.IsClass)
