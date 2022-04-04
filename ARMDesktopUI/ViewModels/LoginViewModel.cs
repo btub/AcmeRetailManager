@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ARMDesktopUI.Library.Api;
+using ARMDesktopUI.EventModels;
 
 namespace ARMDesktopUI.ViewModels
 {
@@ -14,9 +15,11 @@ namespace ARMDesktopUI.ViewModels
         private string _userName;
         private string _password;
         private IAPIHelper _apiHelper;
-        public LoginViewModel(IAPIHelper apiHelper)
+        private IEventAggregator _events;
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
+            _events = events;
         }
         public string UserName
         {
@@ -93,6 +96,8 @@ namespace ARMDesktopUI.ViewModels
 
                 //Capture more information about the user
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+                
+                _events.PublishOnUIThread(new LogOnEvent());
 
             }
             catch (Exception ex)
