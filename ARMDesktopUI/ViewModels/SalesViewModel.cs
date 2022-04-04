@@ -35,15 +35,15 @@ namespace ARMDesktopUI.ViewModels
         }
 
 
-        private string _itemQuentity;
+        private int _itemQuentity;
 
-        public string ItemQuentitiy
+        public int ItemQuentitiy
         {
             get { return _itemQuentity; }
             set 
             { 
                 _itemQuentity = value;
-                NotifyOfPropertyChange(() => Products);
+                NotifyOfPropertyChange(() => ItemQuentitiy);
             }
         }
 
