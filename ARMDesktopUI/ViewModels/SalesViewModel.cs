@@ -25,7 +25,7 @@ namespace ARMDesktopUI.ViewModels
             await LoadProducts();
         }
 
-        
+
         private async Task LoadProducts()
         {
             var productList = await _productEndpoint.GetAll();
@@ -37,45 +37,64 @@ namespace ARMDesktopUI.ViewModels
         public BindingList<ProductModel> Products
         {
             get { return _products; }
-            set 
+            set
             {
-                _products = value; 
+                _products = value;
                 NotifyOfPropertyChange(() => Products);
             }
         }
 
-        private BindingList<string> _cart;
+        private ProductModel _selectedProduct;
 
-        public BindingList<string> Cart
+        public ProductModel SelectedProduct
+        {
+            get { return _selectedProduct; }
+            set
+            {
+                _selectedProduct = value;
+                NotifyOfPropertyChange(() => SelectedProduct);
+                NotifyOfPropertyChange(() => CanAddToCart);
+            }
+        }
+
+        private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
+
+        public BindingList<CartItemModel> Cart
         {
             get { return _cart; }
-            set 
-            { 
+            set
+            {
                 _cart = value;
                 NotifyOfPropertyChange(() => Cart);
             }
         }
 
 
-        private int _itemQuentity;
+        private int _itemQuentity = 1;
 
         public int ItemQuentitiy
         {
             get { return _itemQuentity; }
-            set 
-            { 
+            set
+            {
                 _itemQuentity = value;
                 NotifyOfPropertyChange(() => ItemQuentitiy);
+                NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
 
 
         public string SubTotal
         {
-            get 
-            { 
-                // TODO - Replace with calculation
-                return "$0.00"; 
+            get
+            {
+                decimal subTotal = 0;
+
+                foreach (var item in Cart)
+                {
+                    subTotal += item.Product.RetailPrice * item.QuentitiyInCart;
+                }
+                return subTotal.ToString("C");
             }
         }
 
@@ -102,6 +121,11 @@ namespace ARMDesktopUI.ViewModels
             get
             {
                 bool output = false;
+
+                if (ItemQuentitiy > 0 && SelectedProduct?.QuentityInStock >= ItemQuentitiy)
+                {
+                    output = true;
+                }
                 // Make sure something is selected
                 // Make sure there is an item quentity
                 return output;
@@ -110,7 +134,28 @@ namespace ARMDesktopUI.ViewModels
 
         public void AddToCart()
         {
+            CartItemModel existingCartItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
+            
+            if(existingCartItem != null)
+            {
+                existingCartItem.QuentitiyInCart += ItemQuentitiy;
+                // HACK - There should be a better way of refreshing the cart display
+                Cart.Remove(existingCartItem);
+                Cart.Add(existingCartItem);
+            }
+            else
+            {
+                CartItemModel cart = new CartItemModel
+                {
+                    Product = SelectedProduct,
+                    QuentitiyInCart = ItemQuentitiy
+                };
+                Cart.Add(cart);
+            }
 
+            SelectedProduct.QuentityInStock -= ItemQuentitiy;
+            ItemQuentitiy = 1;
+            NotifyOfPropertyChange(() => SubTotal);
         }
 
         public bool CanRemoveFromCart
@@ -125,7 +170,7 @@ namespace ARMDesktopUI.ViewModels
 
         public void RemoveFromCart()
         {
-
+            NotifyOfPropertyChange(() => SubTotal);
         }
 
         public bool CanCheckOut
