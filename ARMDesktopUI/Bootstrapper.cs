@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ARMDesktopUI.Helpers;
 using ARMDesktopUI.Library.Api;
+using ARMDesktopUI.Library.Helpers;
 using ARMDesktopUI.Library.Models;
 using ARMDesktopUI.ViewModels;
 using Caliburn.Micro;
@@ -36,6 +37,7 @@ namespace ARMDesktopUI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<IAPIHelper, APIHelper>()
+                .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<ILoggedInUserModel,LoggedInUserModel>();
 
             GetType().Assembly.GetTypes()

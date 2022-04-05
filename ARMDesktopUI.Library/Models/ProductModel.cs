@@ -13,5 +13,7 @@ namespace ARMDesktopUI.Library.Models
         public string Description { get; set; }
         public decimal RetailPrice { get; set; }
         public int QuentityInStock { get; set; }
+
+        public bool IsTaxable { get; set; }
     }
 }
