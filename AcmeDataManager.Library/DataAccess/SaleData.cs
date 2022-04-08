@@ -25,7 +25,7 @@ namespace AcmeDataManager.Library.DataAccess
                 var detail = new SaleDetailDBModel
                 {
                     ProductId = item.ProductId,
-                    Quantity = item.Quantitiy
+                    Quantity = item.Quantity
                 };
 
                 var productInfo = products.GetProductById(item.ProductId);

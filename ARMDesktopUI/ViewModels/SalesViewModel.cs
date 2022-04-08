@@ -75,15 +75,15 @@ namespace ARMDesktopUI.ViewModels
         }
 
 
-        private int _itemQuentity = 1;
+        private int _itemQuantity = 1;
 
-        public int ItemQuentitiy
+        public int ItemQuantitiy
         {
-            get { return _itemQuentity; }
+            get { return _itemQuantity; }
             set
             {
-                _itemQuentity = value;
-                NotifyOfPropertyChange(() => ItemQuentitiy);
+                _itemQuantity = value;
+                NotifyOfPropertyChange(() => ItemQuantitiy);
                 NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
@@ -99,7 +99,7 @@ namespace ARMDesktopUI.ViewModels
 
         private decimal CalculateSubTotal()
         {
-            decimal subTotal = Cart.Sum(x => x.Product.RetailPrice * x.QuentitiyInCart);
+            decimal subTotal = Cart.Sum(x => x.Product.RetailPrice * x.QuantityInCart);
             return subTotal;
         }
 
@@ -126,7 +126,7 @@ namespace ARMDesktopUI.ViewModels
             decimal taxRate = _configHelper.GetTaxRate()/100;
             taxAmount = Cart
                 .Where(x => x.Product.IsTaxable)
-                .Sum(x => x.Product.RetailPrice * x.QuentitiyInCart * taxRate);
+                .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxRate);
             return taxAmount;
         }
 
@@ -136,7 +136,7 @@ namespace ARMDesktopUI.ViewModels
             {
                 bool output = false;
 
-                if (ItemQuentitiy > 0 && SelectedProduct?.QuentityInStock >= ItemQuentitiy)
+                if (ItemQuantitiy > 0 && SelectedProduct?.QuantityInStock >= ItemQuantitiy)
                 {
                     output = true;
                 }
@@ -152,7 +152,7 @@ namespace ARMDesktopUI.ViewModels
 
             if (existingCartItem != null)
             {
-                existingCartItem.QuentitiyInCart += ItemQuentitiy;
+                existingCartItem.QuantityInCart += ItemQuantitiy;
                 // HACK - There should be a better way of refreshing the cart display
                 Cart.Remove(existingCartItem);
                 Cart.Add(existingCartItem);
@@ -162,13 +162,13 @@ namespace ARMDesktopUI.ViewModels
                 CartItemModel cart = new CartItemModel
                 {
                     Product = SelectedProduct,
-                    QuentitiyInCart = ItemQuentitiy
+                    QuantityInCart = ItemQuantitiy
                 };
                 Cart.Add(cart);
             }
 
-            SelectedProduct.QuentityInStock -= ItemQuentitiy;
-            ItemQuentitiy = 1;
+            SelectedProduct.QuantityInStock -= ItemQuantitiy;
+            ItemQuantitiy = 1;
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
@@ -218,7 +218,7 @@ namespace ARMDesktopUI.ViewModels
                 sale.SaleDetails.Add(new SaleDetailModel
                 {
                     ProductId = item.Product.Id,
-                    Quantitiy = item.QuentitiyInCart
+                    Quantity = item.QuantityInCart
                 });
             }
             await _saleEndpoint.PostSale(sale);
