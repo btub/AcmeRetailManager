@@ -15,10 +15,13 @@ namespace ARMDesktopUI.ViewModels
     {
         IProductEndpoint _productEndpoint;
         IConfigHelper _configHelper;
-        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper)
+        ISaleEndpoint _saleEndpoint;
+
+        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper, ISaleEndpoint saleEndpoint)
         {
             _productEndpoint = productEndpoint;
             _configHelper = configHelper;
+            _saleEndpoint = saleEndpoint;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -119,8 +122,9 @@ namespace ARMDesktopUI.ViewModels
 
         private decimal CalculateTax()
         {
-            decimal taxRate = _configHelper.GetTaxRate() / 100;
-            decimal taxAmount = Cart
+            decimal taxAmount = 0;
+            decimal taxRate = _configHelper.GetTaxRate()/100;
+            taxAmount = Cart
                 .Where(x => x.Product.IsTaxable)
                 .Sum(x => x.Product.RetailPrice * x.QuentitiyInCart * taxRate);
             return taxAmount;
@@ -145,8 +149,8 @@ namespace ARMDesktopUI.ViewModels
         public void AddToCart()
         {
             CartItemModel existingCartItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
-            
-            if(existingCartItem != null)
+
+            if (existingCartItem != null)
             {
                 existingCartItem.QuentitiyInCart += ItemQuentitiy;
                 // HACK - There should be a better way of refreshing the cart display
@@ -168,6 +172,7 @@ namespace ARMDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanRemoveFromCart
@@ -185,6 +190,8 @@ namespace ARMDesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
+
         }
 
         public bool CanCheckOut
@@ -193,13 +200,29 @@ namespace ARMDesktopUI.ViewModels
             {
                 bool output = false;
                 // Make sure something is the cart
+                if (Cart.Count > 0)
+                {
+                    output = true;
+                }
                 return output;
             }
         }
 
-        public void CheckOut()
+        public async Task CheckOut()
         {
+            // Create a SaleModel and post to the API
+            SaleModel sale = new SaleModel();
 
+            foreach (var item in Cart)
+            {
+                sale.SaleDetails.Add(new SaleDetailModel
+                {
+                    ProductId = item.Product.Id,
+                    Quantitiy = item.QuentitiyInCart
+                });
+            }
+            await _saleEndpoint.PostSale(sale);
         }
+        
     }
 }

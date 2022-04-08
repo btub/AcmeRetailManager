@@ -24,7 +24,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -46,7 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\ProductData.cs" />
+    <Compile Include="DataAccess\SaleData.cs" />
+    <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\SaleDBModel.cs" />
+    <Compile Include="Models\SaleDetailDBModel.cs" />
+    <Compile Include="Models\SaleDetailModel.cs" />
+    <Compile Include="Models\SaleModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\DataAccess\SqlDataAccess.cs" />

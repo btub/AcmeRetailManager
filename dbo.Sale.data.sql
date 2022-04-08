@@ -1,0 +1,2 @@
+﻿SET IDENTITY_INSERT [dbo].[Sale] ON
+SET IDENTITY_INSERT [dbo].[Sale] OFF

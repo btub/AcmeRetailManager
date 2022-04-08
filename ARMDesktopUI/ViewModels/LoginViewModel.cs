@@ -12,8 +12,8 @@ namespace ARMDesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private string _userName;
-        private string _password;
+        private string _userName = "btuba@busetuba.com";
+        private string _password = "123456Aa.";
         private IAPIHelper _apiHelper;
         private IEventAggregator _events;
         public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
