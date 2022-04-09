@@ -21,9 +21,9 @@ namespace AcmeDataManager.Library.Internal.DataAccess
         {
             string connectionString = GetConnectionString(connectionStringName);
 
-            using(IDbConnection connection = new SqlConnection(connectionString))
+            using (IDbConnection connection = new SqlConnection(connectionString))
             {
-                List<T> rows = connection.Query<T>(storedProcedure, parameters, 
+                List<T> rows = connection.Query<T>(storedProcedure, parameters,
                     commandType: CommandType.StoredProcedure).ToList();
 
                 return rows;
@@ -45,46 +45,67 @@ namespace AcmeDataManager.Library.Internal.DataAccess
 
         private IDbTransaction _transaction;
 
+        private bool IsClosed = true;
+
         public void StartTransaction(string connectionStringName)
         {
             string connectionString = GetConnectionString(connectionStringName);
-            
+
             _connection = new SqlConnection(connectionString);
             _connection.Open();
 
             _transaction = _connection.BeginTransaction();
+
+            IsClosed = false;
         }
 
         public void ComitTransaction()
         {
             _transaction?.Commit();
             _connection?.Close();
+
+            IsClosed = true;
         }
 
         public void RollBackTransaction()
         {
             _transaction?.Rollback();
             _connection?.Close();
+
+            IsClosed = true;
         }
 
         public void Dispose()
         {
-            ComitTransaction();
+            if (IsClosed == false)
+            {
+                try
+                {
+                    ComitTransaction();
+                }
+                catch 
+                {
+                    // TODO - Log this issue
+                }
+            }
+
+            _transaction = null;
+            _connection = null;
         }
 
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
         {
-                _connection.Execute(storedProcedure, parameters,
-                    commandType: CommandType.StoredProcedure, transaction : _transaction);
+            _connection.Execute(storedProcedure, parameters,
+                commandType: CommandType.StoredProcedure, transaction: _transaction);
         }
 
         public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
         {
 
-               List<T> rows = _connection.Query<T>(storedProcedure, parameters,
-                    commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
+            List<T> rows = _connection.Query<T>(storedProcedure, parameters,
+                 commandType: CommandType.StoredProcedure, transaction: _transaction).ToList();
 
-                return rows;
+            return rows;
         }
         // Open connection/start transaction method
         // load usin the transaction
