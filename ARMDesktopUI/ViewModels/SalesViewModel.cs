@@ -1,6 +1,8 @@
 ﻿using ARMDesktopUI.Library.Api;
 using ARMDesktopUI.Library.Helpers;
 using ARMDesktopUI.Library.Models;
+using ARMDesktopUI.Models;
+using AutoMapper;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
@@ -16,12 +18,15 @@ namespace ARMDesktopUI.ViewModels
         IProductEndpoint _productEndpoint;
         IConfigHelper _configHelper;
         ISaleEndpoint _saleEndpoint;
+        IMapper _mapper;
 
-        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper, ISaleEndpoint saleEndpoint)
+        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper, 
+            ISaleEndpoint saleEndpoint, IMapper mapper)
         {
             _productEndpoint = productEndpoint;
             _configHelper = configHelper;
             _saleEndpoint = saleEndpoint;
+            _mapper = mapper;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -34,12 +39,13 @@ namespace ARMDesktopUI.ViewModels
         private async Task LoadProducts()
         {
             var productList = await _productEndpoint.GetAll();
-            Products = new BindingList<ProductModel>(productList);
+            var products = _mapper.Map<List<ProductDisplayModel>>(productList);
+            Products = new BindingList<ProductDisplayModel>(products);
         }
 
-        private BindingList<ProductModel> _products;
+        private BindingList<ProductDisplayModel> _products;
 
-        public BindingList<ProductModel> Products
+        public BindingList<ProductDisplayModel> Products
         {
             get { return _products; }
             set
@@ -49,9 +55,9 @@ namespace ARMDesktopUI.ViewModels
             }
         }
 
-        private ProductModel _selectedProduct;
+        private ProductDisplayModel _selectedProduct;
 
-        public ProductModel SelectedProduct
+        public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
             set
@@ -62,9 +68,9 @@ namespace ARMDesktopUI.ViewModels
             }
         }
 
-        private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
+        private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
 
-        public BindingList<CartItemModel> Cart
+        public BindingList<CartItemDisplayModel> Cart
         {
             get { return _cart; }
             set
@@ -77,13 +83,13 @@ namespace ARMDesktopUI.ViewModels
 
         private int _itemQuantity = 1;
 
-        public int ItemQuantitiy
+        public int ItemQuantity
         {
             get { return _itemQuantity; }
             set
             {
                 _itemQuantity = value;
-                NotifyOfPropertyChange(() => ItemQuantitiy);
+                NotifyOfPropertyChange(() => ItemQuantity);
                 NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
@@ -136,7 +142,7 @@ namespace ARMDesktopUI.ViewModels
             {
                 bool output = false;
 
-                if (ItemQuantitiy > 0 && SelectedProduct?.QuantityInStock >= ItemQuantitiy)
+                if (ItemQuantity > 0 && SelectedProduct?.QuantityInStock >= ItemQuantity)
                 {
                     output = true;
                 }
@@ -148,27 +154,24 @@ namespace ARMDesktopUI.ViewModels
 
         public void AddToCart()
         {
-            CartItemModel existingCartItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
+            CartItemDisplayModel existingCartItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
 
             if (existingCartItem != null)
             {
-                existingCartItem.QuantityInCart += ItemQuantitiy;
-                // HACK - There should be a better way of refreshing the cart display
-                Cart.Remove(existingCartItem);
-                Cart.Add(existingCartItem);
+                existingCartItem.QuantityInCart += ItemQuantity;
             }
             else
             {
-                CartItemModel cart = new CartItemModel
+                CartItemDisplayModel cart = new CartItemDisplayModel
                 {
                     Product = SelectedProduct,
-                    QuantityInCart = ItemQuantitiy
+                    QuantityInCart = ItemQuantity
                 };
                 Cart.Add(cart);
             }
 
-            SelectedProduct.QuantityInStock -= ItemQuantitiy;
-            ItemQuantitiy = 1;
+            SelectedProduct.QuantityInStock -= ItemQuantity;
+            ItemQuantity = 1;
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);

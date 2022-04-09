@@ -56,8 +56,8 @@
         <!-- Column 1 -->
         <StackPanel Orientation="Vertical" 
                     Grid.Row="2" Grid.Column="1" Margin="20 0">
-            <TextBlock Text="Quentity"/>
-            <TextBox x:Name="ItemQuentitiy" MinWidth="100" Margin="0 0 0 10"/>
+            <TextBlock Text="Quantity"/>
+            <TextBox x:Name="ItemQuantity" MinWidth="100" Margin="0 0 0 10"/>
             <Button x:Name="AddToCart" Content="Add To Cart" 
                     Margin="0 0 0 30" Padding="5"/>
             <Button x:Name="RemoveFromCart" Content="Remove From Cart" Padding="5"/>
