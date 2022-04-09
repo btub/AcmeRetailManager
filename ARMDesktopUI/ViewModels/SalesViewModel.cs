@@ -35,7 +35,6 @@ namespace ARMDesktopUI.ViewModels
             await LoadProducts();
         }
 
-
         private async Task LoadProducts()
         {
             var productList = await _productEndpoint.GetAll();
@@ -94,6 +93,17 @@ namespace ARMDesktopUI.ViewModels
             }
         }
 
+        private async Task ResetSalesViewModel()
+        {
+            Cart = new BindingList<CartItemDisplayModel>();
+            // TODO: Add clearing the selectedCartItem id it does not do it self
+            await LoadProducts();
+
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
+        }
 
         private int _itemQuantity = 1;
 
@@ -107,7 +117,6 @@ namespace ARMDesktopUI.ViewModels
                 NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
-
 
         public string SubTotal
         {
@@ -220,7 +229,7 @@ namespace ARMDesktopUI.ViewModels
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
             NotifyOfPropertyChange(() => CanCheckOut);
-
+            NotifyOfPropertyChange(() => CanAddToCart);
         }
 
         public bool CanCheckOut
@@ -251,7 +260,8 @@ namespace ARMDesktopUI.ViewModels
                 });
             }
             await _saleEndpoint.PostSale(sale);
+
+            await ResetSalesViewModel();
         }
-        
     }
 }

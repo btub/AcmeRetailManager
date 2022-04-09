@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ARMDesktopUI.Library.Models
 {
-    public class LoggedInUserModel :  ILoggedInUserModel
+    public class LoggedInUserModel : ILoggedInUserModel
     {
         public string Token { get; set; }
         public string Id { get; set; }
@@ -14,5 +14,15 @@ namespace ARMDesktopUI.Library.Models
         public string LastName { get; set; }
         public string EmailAdress { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public void LogOffUser()
+        {
+            Token = null;
+            Id = null;
+            FirstName = null;
+            LastName = null;
+            EmailAdress = null;
+            CreatedDate = DateTime.MinValue;
+        }
     }
 }
