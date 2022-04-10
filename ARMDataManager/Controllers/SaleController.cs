@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace ARMDataManager.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public class SaleController : ApiController
     {
         public void Post(SaleModel sale)
@@ -19,6 +19,14 @@ namespace ARMDataManager.Controllers
             string userId = RequestContext.Principal.Identity.GetUserId();
             
             data.SaveSale(sale, userId);
+        }
+
+
+        [Route("GetSalesReport")]
+        public List<SaleReportModel> GetSalesReport()
+        {
+            SaleData data = new SaleData();
+            return data.GetSaleReport();
         }
     }
 }

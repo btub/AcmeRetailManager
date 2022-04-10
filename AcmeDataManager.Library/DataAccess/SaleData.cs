@@ -18,7 +18,7 @@ namespace AcmeDataManager.Library.DataAccess
             // Start filling in the models we will save to the database
             List<SaleDetailDBModel> details = new List<SaleDetailDBModel>();
             ProductData products = new ProductData();
-            var taxRate = ConfigHelper.GetTaxRate()/100;
+            var taxRate = ConfigHelper.GetTaxRate() / 100;
 
             foreach (var item in saleInfo.SaleDetails)
             {
@@ -55,21 +55,21 @@ namespace AcmeDataManager.Library.DataAccess
 
             sale.Total = sale.SubTotal + sale.Tax;
 
-          
+
 
             using (SqlDataAccess sql = new SqlDataAccess())
             {
                 try
                 {
                     sql.StartTransaction("ARMData");
-                    
+
                     // Save the sale model
                     sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
-                    
+
                     // Get the ID from the sale model
                     sale.Id = sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup",
                         new { sale.CashierId, sale.SaleDate }).FirstOrDefault();
-                    
+
                     // Finish filling in the sale detail models
                     foreach (var item in details)
                     {
@@ -77,10 +77,10 @@ namespace AcmeDataManager.Library.DataAccess
                         // Save the sale detail models
                         sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
                     }
-                    
+
                     sql.ComitTransaction();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     sql.RollBackTransaction();
                     throw;
@@ -88,13 +88,13 @@ namespace AcmeDataManager.Library.DataAccess
             }
         }
 
-        //public List<ProductModel> GetProducts()
-        //{
-        //    SqlDataAccess sql = new SqlDataAccess();
+        public List<SaleReportModel> GetSaleReport()
+        {
+            SqlDataAccess sql = new SqlDataAccess();
 
-        //    var output = sql.LoadData<ProductModel, dynamic>("dbo.spProductGetAll", new { }, "ARMData");
+            var output = sql.LoadData<SaleReportModel, dynamic>("dbo.spSale_SaleReport", new { }, "ARMData");
 
-        //    return output;
-        //}
+            return output;
+        }
     }
 }
