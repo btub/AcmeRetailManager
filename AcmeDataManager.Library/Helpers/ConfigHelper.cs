@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcmeDataManager.Library.Helpers
+namespace ARMDataManager.Library.Helpers
 {
     public class ConfigHelper 
     {

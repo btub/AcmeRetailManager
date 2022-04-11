@@ -1,13 +1,13 @@
-﻿using AcmeDataManager.Library.Helpers;
-using AcmeDataManager.Library.Internal.DataAccess;
-using AcmeDataManager.Library.Models;
+﻿using ARMDataManager.Library.Helpers;
+using ARMDataManager.Library.Internal.DataAccess;
+using ARMDataManager.Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcmeDataManager.Library.DataAccess
+namespace ARMDataManager.Library.DataAccess
 {
     public class SaleData
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcmeDataManager.Library.Models
+namespace ARMDataManager.Library.Models
 {
     public class SaleReportModel
     {

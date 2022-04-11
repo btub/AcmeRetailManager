@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace AcmeDataManager.Library.Models
+namespace ARMDataManager.Library.Models
 {
     public class SaleDetailModel
     {

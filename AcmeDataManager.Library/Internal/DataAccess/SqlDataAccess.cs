@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AcmeDataManager.Library.Internal.DataAccess
+namespace ARMDataManager.Library.Internal.DataAccess
 {
     internal class SqlDataAccess : IDisposable
     {

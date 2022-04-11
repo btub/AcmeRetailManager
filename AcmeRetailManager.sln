@@ -9,7 +9,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ARMData", "ARMData\ARMData.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARMDesktopUI", "ARMDesktopUI\ARMDesktopUI.csproj", "{10996F4E-36A0-4E2C-93ED-F146061E5118}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDataManager.Library", "AcmeDataManager.Library\AcmeDataManager.Library.csproj", "{CE84A425-1F89-44BE-8FDF-9911BC2349E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARMDataManager.Library", "AcmeDataManager.Library\ARMDataManager.Library.csproj", "{CE84A425-1F89-44BE-8FDF-9911BC2349E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARMDesktopUI.Library", "ARMDesktopUI.Library\ARMDesktopUI.Library.csproj", "{4CF503B1-55E4-4442-9CC6-3DE683F845CF}"
 EndProject

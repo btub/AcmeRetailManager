@@ -325,9 +325,9 @@
     <Content Include="Scripts\jquery-3.6.0.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AcmeDataManager.Library\AcmeDataManager.Library.csproj">
+    <ProjectReference Include="..\AcmeDataManager.Library\ARMDataManager.Library.csproj">
       <Project>{CE84A425-1F89-44BE-8FDF-9911BC2349E5}</Project>
-      <Name>AcmeDataManager.Library</Name>
+      <Name>ARMDataManager.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
