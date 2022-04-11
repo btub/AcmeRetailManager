@@ -11,12 +11,19 @@
             <MenuItem Header="_File">
                 <MenuItem Header="E_xit" x:Name="ExitApplication"/>
             </MenuItem>
+            <MenuItem Header="_User">
+                <MenuItem Header="User_Management" x:Name="UserManagement"/>
+            </MenuItem>
             <MenuItem Header="_Account" Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                 <MenuItem Header="_Log Out" x:Name="LogOut"/>
             </MenuItem>
         </Menu>
         <Grid>
-            <ContentControl x:Name="ActiveItem" Margin="20 5 20 20"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="23*"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl x:Name="ActiveItem" Margin="20 5 20 20" Grid.ColumnSpan="2"/>
         </Grid>
     </DockPanel>
 </Window>
