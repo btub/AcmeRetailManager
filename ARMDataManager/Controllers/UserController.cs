@@ -10,11 +10,9 @@ using System.Web.Http;
 namespace ARMDataManager.Controllers
 {
     [Authorize]
-  //  [RoutePrefix("api/User")]
     public class UserController : ApiController
     {
         [HttpGet]
-        // GET: User/Details/5
         public UserModel GetById()
         {
             string userId = RequestContext.Principal.Identity.GetUserId();

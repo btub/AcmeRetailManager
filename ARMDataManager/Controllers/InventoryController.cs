@@ -9,9 +9,10 @@ using System.Web.Http;
 
 namespace ARMDataManager.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class InventoryController : ApiController
     {
+        [Authorize(Roles = "Manager,Admin")] // or
         public List<InventoryModel> Get()
         {
             InventoryData data = new InventoryData();
@@ -19,6 +20,8 @@ namespace ARMDataManager.Controllers
             return data.GetInventory();
         }
 
+        // [Authorize(Roles ="WarehouseWorker")] // and 
+        [Authorize(Roles = "Admin")]
         public void Post(InventoryModel item)
         {
             InventoryData data = new InventoryData();
