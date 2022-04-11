@@ -12,7 +12,7 @@
                 <MenuItem Header="E_xit" x:Name="ExitApplication"/>
             </MenuItem>
             <MenuItem Header="_User">
-                <MenuItem Header="User_Management" x:Name="UserManagement"/>
+                <MenuItem Header="User _Management" x:Name="UserManagement"/>
             </MenuItem>
             <MenuItem Header="_Account" Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                 <MenuItem Header="_Log Out" x:Name="LogOut"/>
